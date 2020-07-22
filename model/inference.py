@@ -87,6 +87,8 @@ def co_occur_song(song_list):
                 song_song_list.append([song2, song1])
             
 result = train['songs'].apply(co_occur_song)
+result = val['songs'].apply(co_occur_song)
+result = test['songs'].apply(co_occur_song)
 co_song_df = pd.DataFrame(song_song_list, columns=['sa', 'sb'])
 co_song_count_df = co_song_df.groupby(['sa', 'sb']).size().reset_index().set_index('sa')
 co_song_count_df.columns = ['sb', 'count']
@@ -105,6 +107,8 @@ def co_occur_tag_song(song_list, tag_list):
             tag_song_list.append([tag, song])
 
 result = train.apply(lambda x : co_occur_tag_song(x.songs, x.tags), axis=1)
+result = val.apply(lambda x : co_occur_tag_song(x.songs, x.tags), axis=1)
+result = test.apply(lambda x : co_occur_tag_song(x.songs, x.tags), axis=1)
 co_tag_song_df = pd.DataFrame(tag_song_list, columns=['tag', 'song'])
 co_tag_song_df_indexed =  co_tag_song_df.set_index('tag')
 co_tag_song_count_df = co_tag_song_df.groupby(['tag', 'song']).size().reset_index()
@@ -123,6 +127,8 @@ def co_occur_tag(tag_list):
                 tag_tag_list.append([tag1, tag2])
 
 result = train['tags'].apply(co_occur_tag)
+result = val['tags'].apply(co_occur_tag)
+result = test['tags'].apply(co_occur_tag)
 co_tag_df = pd.DataFrame(tag_tag_list, columns=['ta', 'tb'])
 co_tag_count_df = co_tag_df.groupby(['ta', 'tb']).size().reset_index().set_index('ta')
 co_tag_count_df.columns = ['tb', 'count']
